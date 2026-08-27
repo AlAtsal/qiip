@@ -575,7 +575,7 @@ async function refreshDetail() {
 
     if (!node) {
       stateEl.textContent = "Node not found";
-      renderTableMessage(infoBody, 9, "Node not found in registry");
+      renderTableMessage(infoBody, 8, "Node not found in registry");
       document.getElementById("node-actions").textContent = "";
       document.getElementById("config-download-panel").style.display = "none";
       renderLlamaCppRuntime(null, currentRelaunchObservation);
@@ -589,7 +589,6 @@ async function refreshDetail() {
 
       var tdGV = document.createElement("td"); tdGV.textContent = node.gpu_vendor || "—"; tr.appendChild(tdGV);
       var tdGM = document.createElement("td"); tdGM.textContent = node.gpu_model || "—"; tr.appendChild(tdGM);
-      var tdEp = document.createElement("td"); tdEp.textContent = node.state === "available" ? "—" : node.endpoint; tr.appendChild(tdEp);
       var tdMo = document.createElement("td"); tdMo.textContent = node.state === "available" ? "—" : node.model; tr.appendChild(tdMo);
       var tdEn = document.createElement("td"); tdEn.textContent = formatInferenceEngine(node.engine); tr.appendChild(tdEn);
 
@@ -621,9 +620,9 @@ async function refreshDetail() {
       var cfgButtons = document.getElementById("config-download-buttons");
       if (node.state === "healthy" && node.model) {
         cfgPanel.style.display = "";
-        cfgHint.textContent = "Download agent configuration pointing directly at this node (" + node.endpoint + ").";
+        cfgHint.textContent = "Download agent configuration routed through the inference proxy (" + window.location.origin + ").";
         cfgButtons.textContent = "";
-        cfgButtons.appendChild(createConfigDropdown(node.endpoint, node.model));
+        cfgButtons.appendChild(createConfigDropdown(window.location.origin, node.model));
       } else {
         cfgPanel.style.display = "none";
       }
